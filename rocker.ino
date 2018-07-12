@@ -75,4 +75,5 @@ void loop() {
   Serial.print(",");
   Serial.print(ANGLE);
   Serial.println();
+  delay(30);
 }

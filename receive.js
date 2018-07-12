@@ -5,17 +5,20 @@ var port = new serialport('COM4', {
 
 var d = "";
 port.on('data', function (data) {
-    d += data.toString();
-    d = d.trim();
-    if (d.indexOf("\n") >= 0) {
-        var chunk = d.split("\n")[0];
-        d = d.substring(chunk.length);
-        if (chunk.split(",").length != 2) {
-            return;
+    data = data.toString();
+    for(var i = 0; i < data.length; i++) {
+        d += data[i];
+        if(data[i] == '\n') {
+            //chop
+            var chunk = d.trim().split(",");
+            d = '';
+            if(chunk.length != 2) {
+                continue;
+            }
+            var all = chunk.map((v) => {
+                return parseFloat(v.trim());
+            });
+            console.log(all);
         }
-        var all = chunk.split(",").map((v) => {
-            return parseFloat(v.trim());
-        });
-        console.log(all);
     }
 });
